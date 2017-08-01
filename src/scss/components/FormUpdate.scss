@@ -1,0 +1,21 @@
+@import '../settings';
+
+.wrap-calc-money {
+  .wrap-btn {
+    padding-bottom: 0px;
+    margin-top: -5px;
+    .btn-custom {
+      background: #0a4fc9;
+      padding: 0px;
+      width: 59px;
+      height: 33px;
+      color: white;
+      &:disabled {
+        opacity: 0.5;
+      }
+      span {
+        display: none;
+      }
+    }
+  }
+}

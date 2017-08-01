@@ -1,0 +1,116 @@
+@import '../settings';
+
+.turno-title {
+  font-family: 'Raleway';
+  font-size: 40px;
+  margin: 0px;
+  color: #404040;
+  font-weight: bold;
+}
+
+.pull-down {
+  margin-top: 5px;
+}
+
+.disable-token {
+  pointer-events: none !important;
+  opacity: 0.5 !important;
+}
+
+.rebound {
+  animation-name: rebound-box;
+  animation-duration: .2s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  transform: scale(0.9);
+}
+
+.not-rebound {
+  animation-name: not-rebound-box;
+  animation-duration: .2s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  transform: scale(1);
+}
+
+.wrap-notification-request {
+  span, i {
+    vertical-align: middle;
+    color: #404040;
+  }
+  span {
+    font-size: 21px;
+    font-weight: 100;
+    font-family: "Raleway";
+    margin-right: 5px;
+  }
+  i {
+    font-size: 18px;
+    cursor: pointer;
+  }
+}
+.notification-active {
+  color: orange !important;
+}
+
+.notification-sound {
+  margin-right: 10px;
+}
+
+.notification-sound-on {
+  color: #333 !important;
+}
+
+.notification-sound-off {
+  color: #333 !important;
+  opacity: 0.5;
+  transition: all 0.35s;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+
+.wrap-turnos {
+  li {
+    @extend .rebound;
+    padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    transition: all 0.45s;
+    list-style: none;
+    height: 100px;
+    box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.58);
+    pointer-events: auto;
+    opacity: 1;
+    overflow: hidden;
+    background: white;
+    button {
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+    .btn-custom {
+      border: 1px solid $warning;
+      color: $warning;
+      &:hover {
+        background: $warning;
+        color: white;
+      }
+    }
+    h1 {
+
+
+      font-family: 'Raleway';
+      color: white;
+      font-size: 58px;
+      margin: 0px;
+      position: relative;
+      text-align: center;
+      position: relative;
+      top: -10px;
+      height: 100px;
+      background: #0a4fc9;
+    }
+  }
+}

@@ -1,0 +1,41 @@
+@charset 'utf-8';
+@import 'foundation';
+@import 'motion-ui';
+@import '../settings';
+@import '../animations';
+@import '../fonts';
+@include foundation-global-styles;
+@include foundation-grid;
+
+body {
+  background: #fff;
+}
+
+.wrap-tokens {
+  margin: 0px;
+  padding: 0px;
+  padding: 20px;
+  display: table;
+  margin: 0px auto;
+  li {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    padding: 10px;
+    padding: 0px;
+    .token-name {
+      font-size: 130px;
+      margin: 0px;
+      color: #F7DBA7;
+      padding: 0px;
+      margin-top: -52px;
+    }
+    .modulo-name {
+      font-size: 60px;
+      margin: 0px;
+      padding: 0px;
+      color: #FF3A20;
+    }
+  }
+}

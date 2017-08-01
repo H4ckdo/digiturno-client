@@ -1,0 +1,52 @@
+@import '../settings';
+
+.wrap-form {
+  .static-height_search {
+    height: 65px;
+  }
+}
+
+
+.field-title, .field-icon {
+  vertical-align: middle;
+  position: relative;
+  top: 10px;
+}
+
+.field-title {
+  font-size: 18px;
+  font-family: 'Raleway';
+  font-weight: bold;
+}
+
+.field-icon {
+  margin-right: 5px;
+  color: $primary;
+}
+
+.form-title {
+  margin-bottom: 0px;
+  i {
+    color: white;
+    background: orange;
+    padding: 8px;
+    border-radius: 37px;
+    font-size: 30px;
+    vertical-align: middle;
+  }
+  span {
+    font-family: 'Raleway';
+    font-weight: bold;
+    font-size: 35px;
+    vertical-align: middle;
+    padding-left: 10px;
+    vertical-align: middle;
+  }
+}
+
+.wrap-form {
+  .wrap-btn {
+    margin-top: 15px;
+    padding-bottom: 40px;
+  }
+}

@@ -1,0 +1,65 @@
+@import '../settings';
+.alert {
+  background: $warning !important;
+}
+
+table {
+  border: 1px solid #404040;
+  border-radius: 4px;
+  i {
+    vertical-align: middle;
+    font-size: 20px;
+    color: #404040;
+  }
+  span {
+    vertical-align: bottom;
+    font-family: "Raleway";
+    font-weight: 900;
+    font-size: 16px;
+    margin-left: 4px;
+    color: #404040;
+  }
+  tr {
+    text-align: center;
+  }
+  th {
+    text-align:center;
+  }
+  td {
+    font-family: Open Sans Regular;
+    font-size: 14px;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.alert-value {
+  color: red;
+}
+
+.wrap-btn-add {
+  padding: 0px !important;
+  h1 {
+    font-family: 'Raleway';
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0px;
+    color: #404040;
+  }
+  .wrap-btn {
+    width: 240px;
+    padding-bottom: 20px;
+    padding-left: 0px !important;
+    span {
+      font-size: 20px;
+    }
+  }
+}
+
+.field {
+  input:disabled {
+    display: none;
+  }
+}
