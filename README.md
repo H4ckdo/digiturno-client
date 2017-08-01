@@ -1,6 +1,7 @@
 
 Digiturno client
 ===================
+This is the client side part of [digiturno](https://github.com/H4ckdo/digiturno/)
 
 Requeriments
 -------------
