@@ -1,0 +1,54 @@
+@import '../settings';
+
+.selector{
+  background: white;
+  margin: 5px;
+  border: 1px solid $primary;
+  padding-top: 5px;
+  width: 140px;
+  color: $primary;
+  font-family: raleway;
+  font-weight: 100;
+  text-align: center;
+  padding-top: 7px;
+  padding-bottom: 8px;
+}
+
+
+.submi{
+  width: 150px;
+  height: 38px;
+  margin-top: 4px;
+  margin-left: 5px;
+  background: white;
+  border: 1px solid $primary;
+  color: $primary;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s;
+  border-radius: 2px;
+  outline: none;
+  font-weight: 100;
+  text-transform: uppercase;
+  &:hover {
+    background: $primary;
+    color: white;
+  }
+
+}
+
+.grafica-title {
+  font-family: 'corbel';
+  font-size: 40px;
+  font-weight: bold;
+  margin: 0px;
+  color: #404040;
+}
+
+.wrap-grafica-text {
+  span {
+    font-family: 'open sans regular';
+    font-size: 20px;
+    display: block;
+  }
+}

@@ -10,7 +10,6 @@ submenu.append(new nw.MenuItem({
   click: () => {
     let ip = prompt("Direccion IPV4 del pack", config.SADDRESS) || null;
     const test =  /(192)\.(168)(\.([2][0-5][0-5]|[1][0-9][0-9]|[1-9][0-9]|[0-9])){2}/g.exec(ip)
-    debugger;
     let isValid = false;
     if(test && typeof ip === 'string' && test[0].length === ip.length) isValid = true;
 

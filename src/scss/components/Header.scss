@@ -6,15 +6,44 @@
   }
 }
 
+.wrap-logo {
+  width: 300px;
+  vertical-align: bottom;
+  display: inline-block;
+  border-radius: 100%;
+  overflow: hidden;
+  text-align: center;
+  height: 300px;
+  transform: scale(.8);
+  overflow: hidden;
+  img {
+    transform: scale(1.4);
+    margin-left: -2px;
+  }
+}
+
+.wrap-text {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-left: -20px;
+  nav {
+    vertical-align: bottom;
+    margin-top: 50px;
+  }
+}
+
+
+
 .wrap-header {
   background: $primary;
+  margin-bottom: 40px;
   .header-title {
     margin: 0px;
-    padding-top: 10px;
-    font-size: 42px;
+    padding-left: 13px;
+    font-size: 50px;
     color: white;
     text-align: left;
-    font-family: 'Raleway';
+    font-family: 'corbel';
     font-weight: bold;
   }
   .header-subtitle {
@@ -22,10 +51,13 @@
     color: rgba(255, 255, 255, 0.5);
     font-weight: 100;
     padding: 0px;
-    padding-bottom: 20px;
+    padding-bottom: 5px;
     margin: 0px;
     margin-top: -10px;
-    padding-left: 5px;
+    margin-left: 20px;
+    font-size: 23px;
+    border-bottom: 5px solid rgb(255, 255, 255);
+    width: 100px;
   }
   .wrap-options {
     text-align: left;

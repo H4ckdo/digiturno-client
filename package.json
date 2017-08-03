@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "accounting": "^0.4.1",
+    "chart.js": "^2.6.0",
     "jsdoc": "3.5.2",
     "moment": "^2.18.1",
     "mongodb": "^2.2.27",
     "react": "15.5.4",
+    "react-chartjs-2": "^2.5.5",
     "react-dom": "15.5.4",
     "react-redux": "5.0.5",
     "react-slick": "^0.14.11",

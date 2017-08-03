@@ -13,7 +13,7 @@ export default class Modulo extends React.Component {
   render(){
     return(
       <div className="row columns large-10">
-        <h1>Listado de modulos</h1>
+        <h1 className="module-title">LISTADO DE MODULOS</h1>
 
         <div className="wrap-modulos">
           <table className="Modules-table">

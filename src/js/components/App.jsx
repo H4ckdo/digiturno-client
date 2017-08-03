@@ -15,6 +15,8 @@ import Turno from './Turno.jsx';
 import Modulo from './Modulo.jsx';
 import { validWord } from '../utils';
 import '../../scss/components/App.scss';
+import Grafica from './Grafica.jsx';
+
 
 /**
  * mapStateToProps function, return the data property of the state
@@ -265,6 +267,12 @@ export default @connect(mapStateToProps) class App extends React.Component {
            <section className="tabs-panel hide" id="section_modulos">
               <Modulo data={ this.props.Modulo }/>
           </section>
+
+
+          <section className="tabs-panel hide" id="section_grafica">
+              <Grafica data={ this.props.Modulo }/>
+          </section>
+
         </div>
 
         <PopUp
