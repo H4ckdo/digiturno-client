@@ -18,7 +18,7 @@ export default class Header extends React.Component {
       $tab.addClass("is-active");
       $wrapPanels.find("section:not(.hide)").addClass("hide");
       $panel.removeClass("hide");
-    }
+      if(this.props.onSelect) this.props.onSelect(id);    }
   }//end selectTab
 
   render() {

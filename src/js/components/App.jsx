@@ -86,6 +86,7 @@ export default @connect(mapStateToProps) class App extends React.Component {
 
       let responseModulo = await fetchData(`http://${this.SADDRESS}:1337/modulo/showAll`, this.childrens);
       this.props.dispatch(responseModulo);
+      window.moduloList = responseModulo.payload.data;
     } catch (e) {
       console.log('e', e);
       this.props.dispatch(e);
@@ -120,6 +121,10 @@ export default @connect(mapStateToProps) class App extends React.Component {
     }
   }//end requestUpdate
 
+  findModulo() {
+
+  }//end findModulo
+
   async requestCancelToken(id, data) {
     this.props.dispatch({type: "LOADER", modals: this.childrens});
     try {
@@ -152,7 +157,6 @@ export default @connect(mapStateToProps) class App extends React.Component {
     try {
       let response = await dispatchToken(`http://${this.SADDRESS}:1337/token/update/${ id }`, id, this.childrens, { dispached: true });
       this.props.dispatch(response);
-
     } catch (e) {
       console.log('e', e);
       this.props.dispatch(e);
@@ -250,10 +254,14 @@ export default @connect(mapStateToProps) class App extends React.Component {
     window.location.reload();
   }//end closeApp
 
+  selectGrafica(graficaId, tabSelected) {
+    if(tabSelected === graficaId) this.childrens.grafica.requestData(this.SADDRESS);
+  }//end selectGrafica
+
   render() {
     return (
       <div>
-        <Header/>
+        <Header onSelect={ this.selectGrafica.bind(this, "section_grafica") } />
 
         <div id="wrap-tabs-panels">
           <section className="tabs-panel" id="section_turno">
@@ -270,7 +278,7 @@ export default @connect(mapStateToProps) class App extends React.Component {
 
 
           <section className="tabs-panel hide" id="section_grafica">
-              <Grafica data={ this.props.Modulo }/>
+              <Grafica data={ this.props.Modulo } lift={ this.addChildren.bind(this, "grafica") } />
           </section>
 
         </div>
