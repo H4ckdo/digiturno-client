@@ -31,11 +31,25 @@ submenu.append(new nw.MenuItem({
 }))
 
 submenu.append(new nw.MenuItem({
+  label: 'Resetear',
+  click: () => {  
+    if (window.confirm(`Esto eliminará toda la configuración de este modulo`)) { 
+      localStorage.clear();   
+      alert("Ok, reinicia el programa para ver los cambios reflejados.")
+    }
+  
+  
+  }
+}))
+
+submenu.append(new nw.MenuItem({
   label: 'Cerrar',
   click: () => {
     nw.App.quit();
   }
 }))
+
+
 
 menu.append(new nw.MenuItem({
   label: 'Archivo',
