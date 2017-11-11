@@ -68,6 +68,7 @@ package-lock.json
 assets/js/**.js
 assets/js/**.map
 assets/fonts
+build/
 nwjs
 
 ################################################
