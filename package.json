@@ -58,6 +58,7 @@
     "motion-ui": "1.2.2",
     "node-sass": "4.5.3",
     "nodemon": "^1.11.0",
+    "nw-builder": "^3.4.1",
     "sass-loader": "6.0.5",
     "style-loader": "0.18.1",
     "webpack": "^2.6.1",
