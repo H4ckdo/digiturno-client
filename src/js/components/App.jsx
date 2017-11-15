@@ -77,21 +77,42 @@ export default @connect(mapStateToProps) class App extends React.Component {
     }
   }//end requestCreateModulo
 
+  async fetchEps() {
+    let responseEPS = await fetchData(`http://${this.SADDRESS}:1337/EPS/showAll`, this.childrens);
+    this.props.dispatch(responseEPS);
+    return responseEPS;
+  }//end fetchEps
+
+  async fetchModulo() {
+    let responseModulo = await fetchData(`http://${this.SADDRESS}:1337/modulo/showAll`, this.childrens);
+    this.props.dispatch(responseModulo);
+    window.moduloList = responseModulo.payload.data;
+  }//end fetchModulo
+
   async requestData() {
     this.props.dispatch({type: "LOADER", modals: this.childrens});
     try {
       this.joinRoom();
-      let responseEPS = await fetchData(`http://${this.SADDRESS}:1337/EPS/showAll`, this.childrens);
-      this.props.dispatch(responseEPS);
-
-      let responseModulo = await fetchData(`http://${this.SADDRESS}:1337/modulo/showAll`, this.childrens);
-      this.props.dispatch(responseModulo);
-      window.moduloList = responseModulo.payload.data;
+      this.joinEPS();
+      this.fetchEps();
+      this.fetchModulo();
     } catch (e) {
       console.log('e', e);
       this.props.dispatch(e);
     }
   }//end requestData
+
+  selectGrafica(graficaId, tabSelected) {
+    if (tabSelected === graficaId) this.childrens.grafica.requestData(this.SADDRESS);
+    if (tabSelected === 'section_contratos') {
+      this.props.dispatch({ type: "LOADER", modals: this.childrens });
+      this.fetchEps();
+    }
+    if (tabSelected === 'section_modulos') {
+      this.props.dispatch({ type: "LOADER", modals: this.childrens });
+      this.fetchModulo();
+    }
+  }//end selectGrafica
 
   async requestCreate(data = {}) {
     this.props.dispatch({type: "LOADER", modals: this.childrens});
@@ -116,6 +137,7 @@ export default @connect(mapStateToProps) class App extends React.Component {
     try {
       let response = await updateData(`http://${this.SADDRESS}:1337/EPS/update/${id}`, id, this.childrens, data);
       this.props.dispatch(response);
+      //update at eps:update event
     } catch (e) {
       this.props.dispatch(e);
     }
@@ -199,6 +221,32 @@ export default @connect(mapStateToProps) class App extends React.Component {
 
   }//end notifyMe
 
+  async joinEPS() {
+    let requestJoin =  new Promise((resolve, reject) => {
+      modulosSocket.get(`http://${this.SADDRESS}:1337/EPS/join`, (room, jwres) => {
+        console.log('jwres', jwres);
+        if (jwres.statusCode === 200) return resolve();
+        reject({ type: "UNEXPECTED_RESPONSE", modals: this.childrens })
+      })
+    })
+    try {
+      let action = await requestJoin;      
+      modulosSocket.on("eps:update", (event) => {
+        console.log("event ", event)
+        this.props.dispatch({
+          payload: event,
+          status:[200],
+          type:"UPDATE_DATA",
+          modals: this.childrens
+        });
+      })
+      /*
+      */
+    } catch (e) {
+      this.props.dispatch(e);
+    }   
+  }//end joinEPS
+
   async joinRoom() {
     let moduloId = localStorage.getItem("Modulo");
     let requestJoin = new Promise((resolve, reject) => {
@@ -254,10 +302,6 @@ export default @connect(mapStateToProps) class App extends React.Component {
     window.location.reload();
   }//end closeApp
 
-  selectGrafica(graficaId, tabSelected) {
-    if(tabSelected === graficaId) this.childrens.grafica.requestData(this.SADDRESS);
-  }//end selectGrafica
-
   render() {
     return (
       <div>
@@ -265,11 +309,25 @@ export default @connect(mapStateToProps) class App extends React.Component {
 
         <div id="wrap-tabs-panels">
           <section className="tabs-panel" id="section_turno">
-            <Turno lift={ this.addChildren.bind(this, "turno") } requestCallUser={ this.requestCallUser.bind(this) } requestCancelToken={ this.requestCancelToken.bind(this) } requestUpdateDispatched={ this.requestUpdateDispatched.bind(this) } removeNotificationSound={ this.removeNotificationSound.bind(this) }  whantNotificationSound={ this.whantNotificationSound.bind(this) } removeNotification={ this.removeNotification.bind(this) } whantNotification={ this.whantNotification.bind(this) } tokens={ this.props.Token } watch={ this.joinRoom.bind(this) }  />
+            <Turno 
+              lift={ this.addChildren.bind(this, "turno") } 
+              requestCallUser={ this.requestCallUser.bind(this) } 
+              requestCancelToken={ this.requestCancelToken.bind(this) } 
+              requestUpdateDispatched={ this.requestUpdateDispatched.bind(this) } removeNotificationSound={ this.removeNotificationSound.bind(this) }  whantNotificationSound={ this.whantNotificationSound.bind(this) } removeNotification={ this.removeNotification.bind(this) } 
+              whantNotification={ this.whantNotification.bind(this) } 
+              tokens={ this.props.Token } 
+              watch={ this.joinRoom.bind(this) }  
+            />
           </section>
 
           <section className="tabs-panel hide" id="section_contratos">
-            <Contrato requestRemove={ this.requestRemove.bind(this) } requestUpdate={ this.requestUpdate.bind(this) } dataList={ this.props.EPS } lift={ this.addChildren.bind(this, "contrato") } requestCreate={ this.requestCreate.bind(this) }/>
+            <Contrato 
+              requestRemove={ this.requestRemove.bind(this) } 
+              requestUpdate={ this.requestUpdate.bind(this) } 
+              requestCreate={ this.requestCreate.bind(this) }
+              dataList={ this.props.EPS } 
+              lift={ this.addChildren.bind(this, "contrato") } 
+            />
           </section>
 
            <section className="tabs-panel hide" id="section_modulos">

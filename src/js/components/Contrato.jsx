@@ -141,7 +141,12 @@ export default class Contrato extends React.Component {
           type="custom"
           data={
             <div className="columns large-12 large-centered">
-              <FormUpdate onSubmit={ this.props.requestUpdate.bind(this, this.state.contractId) } id="FormUpdate" lift={ this.addChildren.bind(this, "FormUpdate") } data={ this.state } />
+              <FormUpdate 
+                onSubmit={ this.props.requestUpdate.bind(this, this.state.contractId) } 
+                id="FormUpdate" 
+                lift={ this.addChildren.bind(this, "FormUpdate") } 
+                data={ this.state } 
+              />
             </div>
           }
         />
