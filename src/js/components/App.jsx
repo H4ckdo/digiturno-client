@@ -1,6 +1,7 @@
 //@ sourceMappingUR=/assets/js/modulo.bundle.js.map
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 import { fetchData, create, removeData, updateData } from '../actions/epsActions.js';
@@ -13,6 +14,7 @@ import Header from './Header.jsx';
 import Contrato from './Contrato.jsx';
 import Turno from './Turno.jsx';
 import Modulo from './Modulo.jsx';
+import FormChangeIp from './FormChangeIp.jsx';
 import { validWord } from '../utils';
 import '../../scss/components/App.scss';
 import Grafica from './Grafica.jsx';
@@ -45,6 +47,11 @@ export default @connect(mapStateToProps) class App extends React.Component {
 
   componentDidMount() {
     this.SADDRESS = window.SADDRESS;
+    window.changeIpPopUp = this.refs.changeIpPopUp;
+    window.restartPackPopUp = this.refs.restartPackPopUp;
+    window.deleteCachePopUp = this.refs.deleteCachePopUp;
+    window.changeIPPopUp = this.refs.changeIPPopUp;
+    window.changeIDPopUp = this.refs.changeIDPopUp;
     let Modulo = localStorage.getItem("Modulo");
     if(Modulo) {
       this.requestData();
@@ -63,6 +70,20 @@ export default @connect(mapStateToProps) class App extends React.Component {
 
   }//end componentDidMount
 
+  restartApp() {
+    window.location.reload();
+  }
+
+  updateIp(form) {
+    let input = this.refs[form].refs['input-ip'];
+    if (input.state.valid) {
+      let newIp = ReactDOM.findDOMNode(input).querySelector('input');
+      window.localStorage.setItem('SADDRESS', newIp.value);
+      this.refs.changeIpPopUp.modal.closePopUp();
+      this.refs.restartPackPopUp.modal.openPopUp();
+    }
+  }
+
   async requestCreateModulo(data) {
     this.props.dispatch({type: "LOADER", modals: this.childrens});
     try {
@@ -78,15 +99,28 @@ export default @connect(mapStateToProps) class App extends React.Component {
   }//end requestCreateModulo
 
   async fetchEps() {
-    let responseEPS = await fetchData(`http://${this.SADDRESS}:1337/EPS/showAll`, this.childrens);
-    this.props.dispatch(responseEPS);
-    return responseEPS;
+    try {
+      let responseEPS = await fetchData(`http://${this.SADDRESS}:1337/EPS/showAll`, this.childrens);
+      this.props.dispatch(responseEPS);
+      return responseEPS;
+    } catch(error) {
+      if(error.type === 'UNEXPECTED_RESPONSE')  {
+        this.props.dispatch({ type: 'UNEXPECTED_RESPONSE', modals: this.childrens});
+      }
+    }
   }//end fetchEps
 
   async fetchModulo() {
-    let responseModulo = await fetchData(`http://${this.SADDRESS}:1337/modulo/showAll`, this.childrens);
-    this.props.dispatch(responseModulo);
-    window.moduloList = responseModulo.payload.data;
+    try {
+      let responseModulo = await fetchData(`http://${this.SADDRESS}:1337/modulo/showAll`, this.childrens);
+      this.props.dispatch(responseModulo);
+      window.moduloList = responseModulo.payload.data;
+    } catch (error) {
+      if (error.type === 'UNEXPECTED_RESPONSE') {
+        this.props.dispatch({ type: 'UNEXPECTED_RESPONSE', modals: this.childrens });
+      }
+    }
+
   }//end fetchModulo
 
   async requestData() {
@@ -230,7 +264,7 @@ export default @connect(mapStateToProps) class App extends React.Component {
       })
     })
     try {
-      let action = await requestJoin;      
+      let action = await requestJoin;
       modulosSocket.on("eps:update", (event) => {
         console.log("event ", event)
         this.props.dispatch({
@@ -243,8 +277,9 @@ export default @connect(mapStateToProps) class App extends React.Component {
       /*
       */
     } catch (e) {
+      console.log('e ', e);
       this.props.dispatch(e);
-    }   
+    }
   }//end joinEPS
 
   async joinRoom() {
@@ -302,6 +337,24 @@ export default @connect(mapStateToProps) class App extends React.Component {
     window.location.reload();
   }//end closeApp
 
+  deleteCache() {
+    window.localStorage.clear();
+    window.location.reload();
+  }
+
+  updateID(form, popup) {
+    let input = this.refs[form].refs['input-ip'];
+    if (input.state.valid) {
+      let newID = ReactDOM.findDOMNode(input).querySelector('input').value;
+      console.log('new ', newID);
+      localStorage.setItem("Modulo", newID);
+      if (popup) {
+        this.refs[popup].modal.closePopUp();
+      }
+      this.refs.restartPackPopUp.modal.openPopUp();
+    }
+  }
+
   render() {
     return (
       <div>
@@ -309,24 +362,24 @@ export default @connect(mapStateToProps) class App extends React.Component {
 
         <div id="wrap-tabs-panels">
           <section className="tabs-panel" id="section_turno">
-            <Turno 
-              lift={ this.addChildren.bind(this, "turno") } 
-              requestCallUser={ this.requestCallUser.bind(this) } 
-              requestCancelToken={ this.requestCancelToken.bind(this) } 
-              requestUpdateDispatched={ this.requestUpdateDispatched.bind(this) } removeNotificationSound={ this.removeNotificationSound.bind(this) }  whantNotificationSound={ this.whantNotificationSound.bind(this) } removeNotification={ this.removeNotification.bind(this) } 
-              whantNotification={ this.whantNotification.bind(this) } 
-              tokens={ this.props.Token } 
-              watch={ this.joinRoom.bind(this) }  
+            <Turno
+              lift={ this.addChildren.bind(this, "turno") }
+              requestCallUser={ this.requestCallUser.bind(this) }
+              requestCancelToken={ this.requestCancelToken.bind(this) }
+              requestUpdateDispatched={ this.requestUpdateDispatched.bind(this) } removeNotificationSound={ this.removeNotificationSound.bind(this) }  whantNotificationSound={ this.whantNotificationSound.bind(this) } removeNotification={ this.removeNotification.bind(this) }
+              whantNotification={ this.whantNotification.bind(this) }
+              tokens={ this.props.Token }
+              watch={ this.joinRoom.bind(this) }
             />
           </section>
 
           <section className="tabs-panel hide" id="section_contratos">
-            <Contrato 
-              requestRemove={ this.requestRemove.bind(this) } 
-              requestUpdate={ this.requestUpdate.bind(this) } 
+            <Contrato
+              requestRemove={ this.requestRemove.bind(this) }
+              requestUpdate={ this.requestUpdate.bind(this) }
               requestCreate={ this.requestCreate.bind(this) }
-              dataList={ this.props.EPS } 
-              lift={ this.addChildren.bind(this, "contrato") } 
+              dataList={ this.props.EPS }
+              lift={ this.addChildren.bind(this, "contrato") }
             />
           </section>
 
@@ -340,6 +393,30 @@ export default @connect(mapStateToProps) class App extends React.Component {
           </section>
 
         </div>
+
+        <PopUp
+          ref="restartPackPopUp"
+          id="restartPackPopUp"
+          animation={"rebound"}
+          full={false}
+          hideOptions={false}
+          onConfirm={this.restartApp.bind(this)}
+          type="confirm"
+          title="INFORMACIÓN"
+          message="¿ Desea reiniciar el pack ahora, para que los cambios tengan efecto ?"
+        />
+
+        <PopUp
+          ref="deleteCachePopUp"
+          id="deleteCachePopUp"
+          animation={"rebound"}
+          full={false}
+          hideOptions={false}
+          onConfirm={this.deleteCache.bind(this)}
+          type="confirm"
+          title="ADVERTENCIA"
+          message="Esto eliminará toda la configuración de este modulo"
+        />
 
         <PopUp
           lift={ this.addChildren.bind(this, "PopUpCreateModulo") }
@@ -410,6 +487,54 @@ export default @connect(mapStateToProps) class App extends React.Component {
           full={ false }
           type="warning"
           message="Ya existe un recurso con este mismo nombre, por favor intentalo de nuevo con un nombre distinto."
+        />
+
+        <PopUp
+          ref="restartPackPopUp"
+          id="restartPackPopUp"
+          animation={"rebound"}
+          full={false}
+          hideOptions={false}
+          onConfirm={this.restartApp.bind(this)}
+          type="confirm"
+          title="INFORMACIÓN"
+          message="¿ Desea reiniciar el pack ahora, para que los cambios tengan efecto ?"
+        />
+
+        <PopUp
+          id="changeIDPopUp"
+          ref="changeIDPopUp"
+          animation={"rebound"}
+          full={false}
+          type="custom"
+          data={
+            <FormChangeIp
+              ref="form-set-id"
+              title="IDENTIFICADOR"
+              foolValidator={true}
+              onUpdate={this.updateID.bind(this, 'form-set-id', 'changeIDPopUp') }
+              ipMessage={`
+                ${window.localStorage.getItem('Modulo') ? `Identificador actual: ${window.localStorage.getItem('Modulo')}` : ' ' }
+               `}
+              placeholder={`Escribe el identificador que te dio el pack`}
+            />
+          }
+        />
+        <PopUp
+          id="changeIpPopUp"
+          ref="changeIpPopUp"
+          animation={"rebound"}
+          full={false}
+          type="custom"
+          data={
+            <FormChangeIp
+              ref="form-set-ip"
+              title="DIRECCIÓN IP"
+              onUpdate={this.updateIp.bind(this, 'form-set-ip')}
+              ipMessage={`Dirección establecida en el sistema ${window.localStorage.getItem('SADDRESS')}`}
+              placeholder={`Escribe la dirección ip del pack`}
+            />
+          }
         />
 
       </div>

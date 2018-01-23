@@ -17,7 +17,7 @@
     "mongodb": "^2.2.27",
     "react": "15.5.4",
     "react-chartjs-2": "^2.5.5",
-    "react-dom": "15.5.4",
+    "react-dom": "^15.5.4",
     "react-redux": "5.0.5",
     "react-slick": "^0.14.11",
     "redux": "3.6.0",
@@ -28,11 +28,11 @@
   "scripts": {
     "start": "echo ./nwjs/nw ./ | bash",
     "watch": "nodemon --watch ./src --exec 'npm run start' -e js,jsx,scss",
-    "webpack:build": "webpack --progress --color --display-error-details --bail",
-    "webpack:watch": "webpack --progress --color --watch --display-error-details",
-    "build:linux:dev":"nwbuild --platforms=linux32,linux64 --quiet=true --version=0.26.5 --flavor=sdk ./",
+    "webpack:build": "./node_modules/.bin/webpack --progress --color --display-error-details --bail",
+    "webpack:watch": "./node_modules/.bin/webpack --progress --color --watch --display-error-details",
+    "build:linux:dev": "nwbuild --platforms=linux32,linux64 --quiet=true --version=0.26.5 --flavor=sdk ./",
     "build:linux:pro": "nwbuild --platforms=linux32,linux64 --quiet=true --version=0.26.5 --flavor=normal ./",
-    "build:win:dev":"nwbuild --platforms=win32,win64 --quiet=true --version=0.26.5 --flavor=sdk ./",
+    "build:win:dev": "nwbuild --platforms=win32,win64 --quiet=true --version=0.26.5 --flavor=sdk ./",
     "build:win:pro": "nwbuild --platforms=win32,win64 --quiet=true --version=0.26.5 --flavor=normal ./"
   },
   "repository": {
@@ -62,11 +62,10 @@
     "motion-ui": "1.2.2",
     "node-sass": "4.5.3",
     "nodemon": "^1.11.0",
-    "nw-builder": "^3.4.1",
+    "nw-builder": "3.5.1",
     "sass-loader": "6.0.5",
     "style-loader": "0.18.1",
     "webpack": "^2.6.1",
-    "webpack-notifier": "1.5.0",
-    "nw-builder":"3.5.1"
+    "webpack-notifier": "1.5.0"
   }
 }
